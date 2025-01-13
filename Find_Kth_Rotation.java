@@ -1,38 +1,32 @@
-class Solution {
-    public int findKRotation(List<Integer> arr) {
+public class Solution {
+    public static int findKRotation(int []arr){
         int low = 0;
-        int high = arr.size() - 1;
-        int ans = Integer.MAX_VALUE; // This variable is unnecessary but kept for simplicity.
+        int high = arr.length-1;
+        int ans = Integer.MAX_VALUE;
         int index = -1;
-
-        while (low <= high) {
-            // If the subarray is already sorted
-            if (arr.get(low) <= arr.get(high)) {
-                if (arr.get(low) < ans) {
+        while(low <= high) {
+            int mid = (low + high) / 2;
+            if(arr[low] <= arr[high]) {
+                if(arr[low] < ans) {
                     index = low;
-                    ans = arr.get(low);
+                    ans = arr[low];
                 }
                 break;
-            }
-
-            int mid = (low + high) / 2;
-
-            // Update the minimum element and its index
-            if (arr.get(mid) < ans) {
-                ans = arr.get(mid);
-                index = mid;
-            }
-
-            // Decide which part to explore next
-            if (arr.get(mid) >= arr.get(low)) {
-                // Left part is sorted, go right
+            } 
+            if(arr[low] <= arr[mid]) {
+                if(arr[low] < ans) {
+                    index = low;
+                    ans = arr[low];
+                }
                 low = mid + 1;
-            } else {
-                // Right part is sorted, go left
+            } else{
+                if(arr[mid] < ans) {
+                    index = mid;
+                    ans = arr[mid];
+                }
                 high = mid - 1;
             }
         }
-
         return index;
     }
 }
