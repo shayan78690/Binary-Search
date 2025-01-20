@@ -11,13 +11,18 @@ class Solution {
             min = Math.min(bloomDay[i], min);
             max = Math.max(bloomDay[i], max);
         }
-
-        for(int i = min; i <= max; i++) {
-            if(possible(bloomDay, i, m, k)) {
-                return i;
-            } 
+        int low = min;
+        int high = max;
+        while(low <= high) {
+            int mid = (low + high) / 2;
+            if(possible(bloomDay, mid, m, k)) {
+                high = mid - 1;
+            } else{
+                low = mid + 1;
+            }
         }
-        return -1;
+        return low;
+        
     }
     public boolean possible(int bloomDay[], int day, int m, int k) {
         int count = 0;
@@ -32,9 +37,9 @@ class Solution {
         }
         no_of_bouquets += count / k;
         if(no_of_bouquets >= m) {
-            return True;
+            return true;
         } else {
-            return False;
+            return false;
         }
     }
 }
