@@ -1,19 +1,24 @@
 class Solution {
     public static int aggressiveCows(int[] stalls, int k) {
+        Arrays.sort(stalls);
         int max = Integer.MIN_VALUE;
         int min = Integer.MAX_VALUE;
         for(int i = 0; i < stalls.length; i++) {
             max = Math.max(stalls[i], max);
             min = Math.min(stalls[i], min);
         }
-        for(int d = 1; d <= (max-min); d++) {
-            if(can_We_Place(stalls, d, k)) {
-                continue;
-            } else{
-                return d-1;
+        int low = 0;
+        int high = max-min;
+        while(low <= high) {
+            int mid = (low + high) / 2;
+            if(can_We_Place(stalls, mid, k)) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
             }
         }
-        return -1;
+        return high;
+        
     }
     public static boolean can_We_Place(int stalls[], int distance, int k) {
         int count_of_cows = 1;
@@ -23,7 +28,7 @@ class Solution {
                 count_of_cows++;
                 last_cow = stalls[i];
             }
-            if(count_of_cows >= cows) {
+            if(count_of_cows >= k) {
                 return true;
             }
         }
