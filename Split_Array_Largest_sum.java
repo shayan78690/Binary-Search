@@ -6,13 +6,18 @@ class Solution {
             max = Math.max(max, nums[i]);
             sum += nums[i];
         }
-
-        for(int i = max; i <= sum; i++) {
-            if(count_Partition(nums, i) == k) {
-                return i;
+        int low = max;
+        int high = sum;
+        while(low <= high) {
+            int mid = (low + high) / 2;
+            int partitions = count_Partition(nums, mid);
+            if(partitions > k) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
             }
         }
-        return max;
+        return low;
     }
     public int count_Partition(int nums[], int max_sum) {
         int partition = 1;
