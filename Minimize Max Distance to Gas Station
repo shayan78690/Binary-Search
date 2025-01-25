@@ -1,29 +1,30 @@
 public class Solution {
     public static double MinimiseMaxDistance(int []arr, int K){
-        int n = arr.length;
-        int how_many[] = new int[n-1];
-        for(int gasStation = 1; gasStation <= K; gasStation++) {
-            double max_section = -1;
-            int max_idx = -1;
-            for(int i = 0; i < n-1; i++) {
-                double diff = arr[i+1] - arr[i];
-                double section_length = diff / (double) (how_many[i] + 1);
+         int n = arr.length;
+        double left = 0, right = arr[n - 1] - arr[0];
+        double result = right;
 
-                if(section_length > max_section) {
-                    max_section = section_length;
-                    max_idx = i;
-                }
+        while (right - left > 1e-6) { // Precision threshold
+            double mid = left + (right - left) / 2;
+
+            if (canPlaceStations(arr, K, mid)) {
+                result = mid;
+                right = mid; // Try smaller max distance
+            } else {
+                left = mid; // Increase max distance
             }
-            how_many[max_idx]++;
         }
 
-        double max_ans = -1;
-        for(int i = 0; i < n-1; i++) {
-            double diff = arr[i+1] - arr[i];
-            double section_length = diff / (double) (how_many[i] + 1);
+        return result;
+    }
+    private static boolean canPlaceStations(int[] arr, int K, double maxDist) {
+        int requiredStations = 0;
 
-            max_ans = Math.max(max_ans, section_length); 
+        for (int i = 0; i < arr.length - 1; i++) {
+            double gap = arr[i + 1] - arr[i];
+            requiredStations += Math.ceil(gap / maxDist) - 1; // Stations needed in this gap
         }
-        return max_ans;
+
+        return requiredStations <= K;
     }
 }
