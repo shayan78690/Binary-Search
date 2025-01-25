@@ -1,29 +1,29 @@
 public class Solution {
     public static double MinimiseMaxDistance(int []arr, int K){
         int n = arr.length;
-        int howMany[] = new int[n-1];
+        int how_many[] = new int[n-1];
         for(int gasStation = 1; gasStation <= K; gasStation++) {
-            double maxSection = -1;
-            int maxIdx = -1;
+            double max_section = -1;
+            int max_idx = -1;
             for(int i = 0; i < n-1; i++) {
-                double difference = arr[i+1] - arr[i];
-                double sectionLength = difference / (double)(howMany[i] + 1);
-                
-                if(sectionLength > maxSection) {
-                    maxSection = sectionLength;
-                    maxIdx = i;
+                double diff = arr[i+1] - arr[i];
+                double section_length = diff / (double) (how_many[i] + 1);
+
+                if(section_length > max_section) {
+                    max_section = section_length;
+                    max_idx = i;
                 }
             }
-            howMany[maxIdx]++;
+            how_many[max_idx]++;
         }
 
-        double maxAns = -1;
+        double max_ans = -1;
         for(int i = 0; i < n-1; i++) {
-            double difference = arr[i+1] - arr[i];
-            double sectionLength = difference / (double)(howMany[i] + 1);
+            double diff = arr[i+1] - arr[i];
+            double section_length = diff / (double) (how_many[i] + 1);
 
-            maxAns = Math.max(maxAns, sectionLength);
+            max_ans = Math.max(max_ans, section_length); 
         }
-        return maxAns;
+        return max_ans;
     }
 }
