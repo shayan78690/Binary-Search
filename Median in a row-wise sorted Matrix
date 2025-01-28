@@ -1,0 +1,14 @@
+class Solution {
+    int median(int mat[][]) {
+        ArrayList<Integer> list = new ArrayList<>();
+        int n = mat.length;
+        int m = mat[0].length;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                list.add(mat[i][j]);
+            }
+        }
+        Collections.sort(list);
+        return list.get((n*m)/2);
+    }
+}
