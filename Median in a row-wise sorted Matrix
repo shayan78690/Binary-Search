@@ -1,14 +1,44 @@
-class Solution {
-    int median(int mat[][]) {
-        ArrayList<Integer> list = new ArrayList<>();
-        int n = mat.length;
-        int m = mat[0].length;
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
-                list.add(mat[i][j]);
+public final class Solution {
+    public static int findMedian(int matrix[][], int m, int n) {
+        int N = m*n;
+        int median_idx = N / 2;
+        
+        int smallest = Integer.MAX_VALUE;
+        int largest = Integer.MIN_VALUE;
+        for(int i = 0; i < m; i++) {
+            smallest = Math.min(smallest, matrix[i][0]);
+            largest = Math.max(largest, matrix[i][n-1]);
+        };
+
+        int low = smallest;
+        int high = largest;
+        while(low <= high) {
+            int mid = (low + high) / 2;
+            int lesser_elements = find_Smaller_Elements(matrix, m, n, mid);
+            if(lesser_elements <= median_idx) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
             }
         }
-        Collections.sort(list);
-        return list.get((n*m)/2);
+        return low;
+    }
+
+    public static int find_Smaller_Elements(int matrix[][], int m, int n, int median) {
+        int no_of_smaller = 0;
+        for(int i = 0; i < m; i++) {
+            int start = 0;
+            int end = n-1;
+            while(start <= end) {
+                int mid = (start + end) / 2;
+                if(matrix[i][mid] <= median) {
+                    start = mid + 1;
+                } else {
+                    end = mid - 1;
+                }
+            }
+            no_of_smaller += start;
+        }
+        return no_of_smaller;
     }
 }
